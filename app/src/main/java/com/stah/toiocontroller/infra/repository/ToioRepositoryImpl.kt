@@ -7,9 +7,8 @@ import com.stah.toiocontroller.domain.ToioCube
 import com.stah.toiocontroller.domain.repository.ToioRepository
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
-
 
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
@@ -26,39 +25,29 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             .subscribe({
                 Timber.d(it.bleDevice.macAddress)
                 dispose.dispose()
-
             }, {
                 Timber.e("error")
             })
-
-
     }
 
     override fun connect() {
-
     }
 
     override fun front() {
-
     }
 
     override fun back() {
-
     }
 
     override fun right() {
-
     }
 
     override fun left() {
-
     }
 
     override fun busser() {
-
     }
 
     override fun turn() {
-
     }
 }

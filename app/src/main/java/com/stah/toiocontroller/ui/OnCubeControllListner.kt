@@ -2,7 +2,6 @@ package com.stah.toiocontroller.ui
 
 import android.view.View
 
-
 interface OnCubeControllListner {
     fun scan(view: View)
     fun moveFront(view: View)

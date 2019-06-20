@@ -10,7 +10,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import timber.log.Timber
 
-
 class MyApp : Application() {
 
     override fun onCreate() {
@@ -18,7 +17,6 @@ class MyApp : Application() {
         Timber.plant(Timber.DebugTree())
 
         startKoin { modules(module) }
-
     }
 
     private val module: Module = module {

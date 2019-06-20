@@ -1,6 +1,5 @@
 package com.stah.toiocontroller.domain.repository
 
-
 interface ToioRepository {
     fun scan()
     fun connect()

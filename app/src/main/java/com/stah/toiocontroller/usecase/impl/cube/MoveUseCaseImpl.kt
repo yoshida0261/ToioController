@@ -5,9 +5,8 @@ import com.stah.toiocontroller.domain.repository.ToioRepository
 import com.stah.toiocontroller.usecase.cube.MoveUseCase
 import timber.log.Timber
 
-
 class MoveUseCaseImpl(
-    val reposiroty : ToioRepository
+    val reposiroty: ToioRepository
 ) : MoveUseCase {
 
     override fun scan() {
@@ -19,5 +18,4 @@ class MoveUseCaseImpl(
         Timber.d("usecase back")
         reposiroty.front()
     }
-
 }
