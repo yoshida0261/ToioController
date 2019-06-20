@@ -1,7 +1,8 @@
-package com.stah.toiocontroller
+package com.stah.toiocontroller.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.stah.toiocontroller.R
 
 class MainActivity : AppCompatActivity() {
 
