@@ -3,7 +3,7 @@ package com.stah.toiocontroller.usecase.cube
 import com.stah.toiocontroller.domain.ToioCubeId
 
 
-interface MoveRightUseCase {
+interface MoveUseCase {
+    fun scan()
     fun execute(id: ToioCubeId)
-
 }

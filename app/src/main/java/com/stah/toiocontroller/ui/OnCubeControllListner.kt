@@ -4,6 +4,7 @@ import android.view.View
 
 
 interface OnCubeControllListner {
+    fun scan(view: View)
     fun moveFront(view: View)
     fun moveBack(view: View)
     fun moveLeft(view: View)

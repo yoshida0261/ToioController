@@ -7,18 +7,23 @@ import androidx.databinding.DataBindingUtil
 import com.stah.toiocontroller.R
 import com.stah.toiocontroller.databinding.ActivityMainBinding
 import com.stah.toiocontroller.domain.ToioCubeId
-import com.stah.toiocontroller.usecase.cube.MoveBackUseCase
+import com.stah.toiocontroller.usecase.cube.MoveUseCase
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
-    private val moveBackUseCase: MoveBackUseCase by inject()
+    private val moveUseCase: MoveUseCase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.handlers = this
+    }
+
+    override fun scan(view: View) {
+        Timber.d("go scan")
+        moveUseCase.scan()
     }
 
     override fun moveFront(view: View) {
@@ -27,7 +32,7 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     override fun moveBack(view: View) {
         Timber.d("go back")
-        moveBackUseCase.execute(ToioCubeId("test"))
+        moveUseCase.execute(ToioCubeId("test"))
 
     }
 

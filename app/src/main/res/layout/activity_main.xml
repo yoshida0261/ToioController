@@ -71,6 +71,7 @@
                 app:layout_constraintHorizontal_bias="0.567"/>
         <Button
                 android:text="Scan"
+                android:onClick="@{handlers.scan}"
                 android:layout_width="118dp"
                 android:layout_height="50dp"
                 android:id="@+id/scan_button" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
