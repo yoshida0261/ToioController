@@ -1,5 +1,6 @@
 package com.stah.toiocontroller.domain
 
 
-class ToioCubeId {
+class ToioCubeId (val id : String){
+
 }
