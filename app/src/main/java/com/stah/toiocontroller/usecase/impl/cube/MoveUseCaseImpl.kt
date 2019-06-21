@@ -14,8 +14,14 @@ class MoveUseCaseImpl(
         reposiroty.scan()
     }
 
-    override fun execute(id: ToioCubeId) {
-        Timber.d("usecase back")
+    override fun front(id: ToioCubeId) {
+        Timber.d("usecase front")
         reposiroty.front()
+
+    }
+
+    override fun back() {
+        Timber.d("usecase back")
+        reposiroty.back()
     }
 }
