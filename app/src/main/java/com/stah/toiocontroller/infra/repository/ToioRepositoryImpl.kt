@@ -10,7 +10,6 @@ import com.stah.toiocontroller.domain.repository.ToioRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
@@ -28,7 +27,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             Timber.d("toio uuid ${it.scanRecord.serviceUuids}")
             it.scanRecord.serviceUuids!!.contains(ParcelUuid(ToioCube.SERVICE_UUID))
         }
-           // .timeout(15, TimeUnit.SECONDS)
+            // .timeout(15, TimeUnit.SECONDS)
             .subscribe({
                 Timber.d("toio name ${it.bleDevice.name}")
 
@@ -97,7 +96,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x02, 0x14))
         }.subscribe() {
             // println("toio raw ${it[0]}")
-           // dispose.dispose()
+            // dispose.dispose()
         }
 
     }
@@ -116,6 +115,10 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     override fun turn() {
+    }
+
+    override fun disconnect() {
+
     }
 }
 
