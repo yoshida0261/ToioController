@@ -5,5 +5,7 @@ import com.stah.toiocontroller.domain.ToioCubeId
 interface MoveUseCase {
     fun scan()
     fun front(id: ToioCubeId)
-    fun back()
+    fun back(id: ToioCubeId)
+    fun left(id:ToioCubeId)
+    fun right(id: ToioCubeId)
 }
