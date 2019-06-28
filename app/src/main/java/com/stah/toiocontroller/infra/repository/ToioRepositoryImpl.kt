@@ -18,7 +18,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
 
     lateinit var bleDevice: RxBleDevice
-    lateinit var connect: Observable<RxBleConnection>
+    lateinit var connect: RxBleConnection
     override fun scan() {
         dispose = bleClient.scanBleDevices(
             ScanSettings.Builder().build()
@@ -34,16 +34,19 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
                 Timber.d("toio: mac ${it.bleDevice.macAddress}")
                 bleDevice = it.bleDevice
                 // connect = it.bleDevice.establishConnection(false)
-                connect()
+                  connect()
 
                 dispose.dispose()
             }, {
-                Timber.e("error")
+                Timber.e(it.localizedMessage)
             })
+        // dispose.dispose()
     }
 
     override fun connect() {
-        connect = bleDevice.establishConnection(false)
+        bleDevice.establishConnection(false).subscribe{
+            connect = it
+        }
     }
 
     override fun front() {
@@ -73,6 +76,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     override fun disconnect() {
+        Timber.d("toio disconnect")
         dispose.dispose()
     }
 }

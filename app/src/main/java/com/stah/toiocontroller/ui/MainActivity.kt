@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     override fun moveBack(view: View) {
         Timber.d("go back")
+        moveUseCase.back(ToioCubeId("id"))
 
     }
 

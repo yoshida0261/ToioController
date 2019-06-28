@@ -9,7 +9,7 @@ class MoveUseCaseImpl(
     val reposiroty: ToioRepository
 ) : MoveUseCase {
     override fun back(id: ToioCubeId) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        reposiroty.disconnect()
     }
 
     override fun left(id: ToioCubeId) {
