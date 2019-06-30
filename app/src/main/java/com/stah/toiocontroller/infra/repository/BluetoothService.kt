@@ -8,6 +8,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
+/*
 class BluetoothService(
     val bluetoothClient: RxBleClient,
     val bluetoothScanSettings: ScanSettings,
@@ -61,4 +62,4 @@ class BluetoothService(
                 bleSessionManager.disconnect()
             }
             .subscribe()
-    }
+    }*/

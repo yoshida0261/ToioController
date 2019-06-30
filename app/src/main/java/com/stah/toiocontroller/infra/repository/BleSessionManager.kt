@@ -1,13 +1,13 @@
 package com.stah.toiocontroller.infra.repository
 
 import android.content.res.Resources
+import com.jakewharton.rx.ReplayingShare
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.RxBleConnection
 import com.polidea.rxandroidble2.Timeout
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 class NotConnectedException : Exception() {}
