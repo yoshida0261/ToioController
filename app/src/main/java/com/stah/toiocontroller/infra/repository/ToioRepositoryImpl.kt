@@ -18,7 +18,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
 
     lateinit var bleDevice: RxBleDevice
-    lateinit var connect: RxBleConnection
+    lateinit var connect: Observable<RxBleConnection>
     override fun scan() {
         dispose = bleClient.scanBleDevices(
             ScanSettings.Builder().build()
@@ -44,8 +44,12 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     override fun connect() {
-        bleDevice.establishConnection(false).subscribe{
-            connect = it
+        connect = bleDevice.establishConnection(false)
+        dispose = connect.flatMapSingle {
+            it.readCharacteristic(ToioCube.BATTERY_UUID)
+        }.subscribe {
+            println(String(it, Charsets.UTF_8))
+            //dispose.dispose()
         }
     }
 
