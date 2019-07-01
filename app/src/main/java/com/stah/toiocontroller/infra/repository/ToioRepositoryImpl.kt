@@ -15,8 +15,10 @@ import timber.log.Timber
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
     lateinit var dispose: Disposable
+    val mBleClient = bleClient
 
 
+    val mSessionManager = BleSessionManager(bleClient, SchedulerProvider)
     lateinit var bleDevice: RxBleDevice
     lateinit var connect: Observable<RxBleConnection>
     override fun scan() {
@@ -32,9 +34,12 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
                 Timber.d("toio name ${it.bleDevice.name}")
 
                 Timber.d("toio: mac ${it.bleDevice.macAddress}")
+
+                mSessionManager.setMacAddress(it.bleDevice.macAddress)
+                mSessionManager.setupConnection()
                 bleDevice = it.bleDevice
                 // connect = it.bleDevice.establishConnection(false)
-                  connect()
+                // connect()
 
                 dispose.dispose()
             }, {
@@ -54,13 +59,17 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     override fun front() {
-        dispose = connect.flatMapSingle {
+
+        dispose = mSessionManager.connection.flatMapSingle {
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x02, 0x14))
-        }.subscribe() {
+        }.subscribe({
             println("toio cube front ")
             // dispose.dispose()
 
-        }
+        }, {
+            println(it)
+
+        })
 
     }
 
@@ -81,7 +90,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
     override fun disconnect() {
         Timber.d("toio disconnect")
-        dispose.dispose()
+        mSessionManager.disconnect()
     }
 }
 
