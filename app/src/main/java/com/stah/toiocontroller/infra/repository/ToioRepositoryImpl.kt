@@ -34,16 +34,23 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
                 Timber.d("toio: mac ${it.bleDevice.macAddress}")
                 bleDevice = it.bleDevice
                 // connect = it.bleDevice.establishConnection(false)
-                connect()
+                  connect()
 
                 dispose.dispose()
             }, {
-                Timber.e("error")
+                Timber.e(it.localizedMessage)
             })
+        // dispose.dispose()
     }
 
     override fun connect() {
         connect = bleDevice.establishConnection(false)
+        dispose = connect.flatMapSingle {
+            it.readCharacteristic(ToioCube.BATTERY_UUID)
+        }.subscribe {
+            println(String(it, Charsets.UTF_8))
+            //dispose.dispose()
+        }
     }
 
     override fun front() {
@@ -73,6 +80,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     override fun disconnect() {
+        Timber.d("toio disconnect")
         dispose.dispose()
     }
 }
