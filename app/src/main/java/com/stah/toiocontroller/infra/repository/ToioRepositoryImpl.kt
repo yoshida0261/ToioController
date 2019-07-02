@@ -2,12 +2,10 @@ package com.stah.toiocontroller.infra.repository
 
 import android.os.ParcelUuid
 import com.polidea.rxandroidble2.RxBleClient
-import com.polidea.rxandroidble2.RxBleConnection
 import com.polidea.rxandroidble2.RxBleDevice
 import com.polidea.rxandroidble2.scan.ScanSettings
 import com.stah.toiocontroller.domain.ToioCube
 import com.stah.toiocontroller.domain.repository.ToioRepository
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
@@ -15,12 +13,9 @@ import timber.log.Timber
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
     lateinit var dispose: Disposable
-    val mBleClient = bleClient
-
-
     val mSessionManager = BleSessionManager(bleClient, SchedulerProvider)
     lateinit var bleDevice: RxBleDevice
-    lateinit var connect: Observable<RxBleConnection>
+
     override fun scan() {
         dispose = bleClient.scanBleDevices(
             ScanSettings.Builder().build()
@@ -48,15 +43,6 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
         // dispose.dispose()
     }
 
-    override fun connect() {
-        connect = bleDevice.establishConnection(false)
-        dispose = connect.flatMapSingle {
-            it.readCharacteristic(ToioCube.BATTERY_UUID)
-        }.subscribe {
-            println(String(it, Charsets.UTF_8))
-            //dispose.dispose()
-        }
-    }
 
     override fun front() {
 
@@ -64,11 +50,8 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x02, 0x14))
         }.subscribe({
             println("toio cube front ")
-            // dispose.dispose()
-
         }, {
             println(it)
-
         })
 
     }
