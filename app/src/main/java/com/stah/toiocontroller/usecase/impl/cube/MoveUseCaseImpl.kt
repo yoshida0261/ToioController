@@ -26,9 +26,20 @@ class MoveUseCaseImpl(
         reposiroty.scan()
     }
 
+    var move = true
+
     override fun front(id: ToioCubeId) {
         Timber.d("usecase front")
-        reposiroty.front()
+
+
+        if(move) {
+            reposiroty.front()
+        }else{
+            reposiroty.stop()
+        }
+
+        move = !move
+
 
     }
 
