@@ -2,8 +2,6 @@ package com.stah.toiocontroller
 
 import android.app.Application
 import com.polidea.rxandroidble2.RxBleClient
-import com.stah.toiocontroller.infra.repository.BleSessionManager
-import com.stah.toiocontroller.infra.repository.SchedulerProvider
 import com.stah.toiocontroller.infra.repository.ToioRepositoryImpl
 import com.stah.toiocontroller.usecase.cube.MoveUseCase
 import com.stah.toiocontroller.usecase.impl.cube.MoveUseCaseImpl

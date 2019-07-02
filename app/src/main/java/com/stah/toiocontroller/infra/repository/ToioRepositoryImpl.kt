@@ -3,6 +3,8 @@ package com.stah.toiocontroller.infra.repository
 import android.os.ParcelUuid
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.scan.ScanSettings
+import com.stah.toio.lib.session.BleSessionManager
+import com.stah.toio.lib.session.SchedulerProvider
 import com.stah.toiocontroller.domain.ToioCube
 import com.stah.toiocontroller.domain.repository.ToioRepository
 import io.reactivex.disposables.Disposable
@@ -10,6 +12,7 @@ import timber.log.Timber
 
 
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
+
 
     lateinit var dispose: Disposable
     private val sessionManager = BleSessionManager(bleClient, SchedulerProvider)

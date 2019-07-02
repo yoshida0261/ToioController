@@ -1,4 +1,4 @@
-package com.stah.toiocontroller.infra.repository
+package com.stah.toio.lib.session
 
 import io.reactivex.Scheduler
 

@@ -1,4 +1,4 @@
-package com.stah.toiocontrollibrary;
+package com.stah.toio.lib;
 
 import org.junit.Test;
 

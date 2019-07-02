@@ -1,5 +1,6 @@
-package com.stah.toiocontroller.infra.repository
+package com.stah.toio.lib.session
 
+import com.stah.toio.lib.session.BaseSchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

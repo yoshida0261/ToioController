@@ -1,1 +1,1 @@
-include ':app', ':toiocontrollibrary'
+include ':app', ':toiolib'

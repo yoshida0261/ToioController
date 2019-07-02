@@ -1,4 +1,4 @@
-package com.stah.toiocontroller.infra.repository
+package com.stah.toio.lib.session
 
 import android.content.res.Resources
 import com.jakewharton.rx.ReplayingShare
@@ -9,8 +9,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
-
-class NotConnectedException : Exception() {}
 
 /**
  * Manages Bluetooth connection.
@@ -72,7 +70,7 @@ class BleSessionManager(
 
         // Subscribe actions should be implemented even though they have no implementation.
         val disposable = observable
-            .subscribeOn(mSchedulerProvider.io())
+            .subscribeOn(SchedulerProvider.io())
             .retry(10)
             .subscribe(
                 {},
