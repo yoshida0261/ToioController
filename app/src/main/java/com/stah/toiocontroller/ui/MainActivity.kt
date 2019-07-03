@@ -39,9 +39,12 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     override fun moveLeft(view: View) {
         Timber.d("go left")
+        moveUseCase.left(ToioCubeId("id"))
     }
 
     override fun moveRight(view: View) {
         Timber.d("go right")
+        moveUseCase.right(ToioCubeId("id"))
+
     }
 }

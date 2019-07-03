@@ -91,12 +91,39 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     override fun back() {
+        dispose = sessionManager.connection.flatMapSingle {
+            println("toio 1st front")
+            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x02, 0x64, 0x02, 0x02, 0x64))
+            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
+        }.subscribe({
+            println("toio cube front ")
+        }, {
+            println(it)
+        })
     }
 
     override fun right() {
+        dispose = sessionManager.connection.flatMapSingle {
+            println("toio 1st front")
+            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x02, 0x64))
+            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
+        }.subscribe({
+            println("toio cube front ")
+        }, {
+            println(it)
+        })
     }
 
     override fun left() {
+        dispose = sessionManager.connection.flatMapSingle {
+            println("toio 1st front")
+            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x02, 0x64, 0x02, 0x01, 0x64))
+            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
+        }.subscribe({
+            println("toio cube front ")
+        }, {
+            println(it)
+        })
     }
 
     override fun busser() {
