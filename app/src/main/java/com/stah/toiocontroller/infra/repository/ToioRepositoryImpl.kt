@@ -16,7 +16,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
     lateinit var dispose: Disposable
     private val sessionManager = BleSessionManager(bleClient, SchedulerProvider)
-    private val motor =  Motor(sessionManager)
+    private val motor = Motor(sessionManager)
 
     override fun scan() {
         dispose = bleClient.scanBleDevices(
@@ -58,90 +58,26 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
     override fun front() {
 
-        /*
-        0	UInt8	制御の種類	0x02（時間指定付きモーター制御）
-        1	UInt8	制御するモーターの ID	0x01（左）
-        2	UInt8	モーターの回転方向	0x01（前）
-        3	UInt8	モーターの速度指示値	0x64（100）
-        4	UInt8	制御するモーターの ID	0x02（右）
-        5	UInt8	モーターの回転方向	0x02（後）
-        6	UInt8	モーターの速度指示値	0x14（20）
-        7	UInt8	モーターの制御時間	0x0A（100 ミリ秒）
-         */
         motor.front()
 
-        /*
-        dispose = sessionManager.connection.flatMapSingle {
-            println("toio 1st front")
-            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64))
-            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
-        }.subscribe({
-            println("toio cube front ")
-        }, {
-            println(it)
-        })
-        */
 
     }
 
     override fun stop() {
 
         motor.stop()
-        /*
-        dispose = sessionManager.connection.flatMapSingle {
-
-            println("toio 1st front")
-            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x00, 0x02, 0x01, 0x00))
-            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
-        }.subscribe({
-            println("toio cube front ")
-        }, {
-            println(it)
-        })
-        */
     }
 
     override fun back() {
         motor.back()
-        /*
-        dispose = sessionManager.connection.flatMapSingle {
-            println("toio 1st front")
-            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x02, 0x64, 0x02, 0x02, 0x64))
-            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
-        }.subscribe({
-            println("toio cube front ")
-        }, {
-            println(it)
-        })*/
     }
 
     override fun right() {
         motor.right()
-        /*
-        dispose = sessionManager.connection.flatMapSingle {
-            println("toio 1st front")
-            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x02, 0x64))
-            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
-        }.subscribe({
-            println("toio cube front ")
-        }, {
-            println(it)
-        })*/
     }
 
     override fun left() {
         motor.left()
-        /*
-        dispose = sessionManager.connection.flatMapSingle {
-            println("toio 1st front")
-            it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x02, 0x64, 0x02, 0x01, 0x64))
-            // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
-        }.subscribe({
-            println("toio cube front ")
-        }, {
-            println(it)
-        })
-        */
     }
 
     override fun busser() {
