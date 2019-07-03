@@ -9,16 +9,38 @@ import timber.log.Timber
 class MoveUseCaseImpl(
     val reposiroty: ToioRepository
 ) : MoveUseCase, DisconnectUseCase {
+
+
+
     override fun back(id: ToioCubeId) {
-        reposiroty.disconnect()
+        if(moveBack){
+            reposiroty.back()
+        }else{
+            reposiroty.stop()
+        }
+
+        moveBack = !moveBack
     }
 
     override fun left(id: ToioCubeId) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if(moveLeft){
+            reposiroty.left()
+        }else{
+            reposiroty.stop()
+        }
+        moveLeft = !moveLeft
     }
 
     override fun right(id: ToioCubeId) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        if(moveRight){
+            reposiroty.right()
+        }else{
+            reposiroty.stop()
+        }
+        moveRight = !moveRight
+
+
     }
 
     override fun scan() {
@@ -26,19 +48,22 @@ class MoveUseCaseImpl(
         reposiroty.scan()
     }
 
-    var move = true
+    var moveFront = true
+    var moveRight = true
+    var moveLeft = true
+    var moveBack = true
 
     override fun front(id: ToioCubeId) {
         Timber.d("usecase front")
 
 
-        if(move) {
+        if (moveFront) {
             reposiroty.front()
-        }else{
+        } else {
             reposiroty.stop()
         }
 
-        move = !move
+        moveFront = !moveFront
 
 
     }
