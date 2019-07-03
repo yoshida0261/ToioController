@@ -20,6 +20,6 @@ class MyApp : Application() {
     }
 
     private val module: Module = module {
-        factory { MoveUseCaseImpl(ToioRepositoryImpl(RxBleClient.create(applicationContext))) as MoveUseCase }
+        factory { MoveUseCaseImpl(ToioRepositoryImpl(RxBleClient.create(applicationContext))) as MoveUseCase } // castは必要
     }
 }

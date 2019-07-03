@@ -13,7 +13,6 @@ import timber.log.Timber
 
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
-
     lateinit var dispose: Disposable
     private val sessionManager = BleSessionManager(bleClient, SchedulerProvider)
 
@@ -21,6 +20,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
         dispose = bleClient.scanBleDevices(
             ScanSettings.Builder().build()
         ).filter {
+            println(it.bleDevice.macAddress)
             it.scanRecord.serviceUuids!!.contains(ParcelUuid(ToioCube.SERVICE_UUID))
         }
             .subscribe({

@@ -10,6 +10,11 @@ class MoveUseCaseImpl(
     val reposiroty: ToioRepository
 ) : MoveUseCase, DisconnectUseCase {
 
+    var moveFront = true
+    var moveRight = true
+    var moveLeft = true
+    var moveBack = true
+    var scanState = false
 
 
     override fun back(id: ToioCubeId) {
@@ -43,15 +48,16 @@ class MoveUseCaseImpl(
 
     }
 
+
     override fun scan() {
         Timber.d("usecase scan")
-        reposiroty.scan()
+        if(!scanState) {
+            reposiroty.scan()
+        }else{
+            reposiroty.disconnect()
+        }
     }
 
-    var moveFront = true
-    var moveRight = true
-    var moveLeft = true
-    var moveBack = true
 
     override fun front(id: ToioCubeId) {
         Timber.d("usecase front")
