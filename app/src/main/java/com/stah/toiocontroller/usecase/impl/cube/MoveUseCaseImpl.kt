@@ -14,13 +14,12 @@ class MoveUseCaseImpl(
     var moveRight = true
     var moveLeft = true
     var moveBack = true
-    var scanState = false
 
 
     override fun back(id: ToioCubeId) {
-        if(moveBack){
+        if (moveBack) {
             reposiroty.back()
-        }else{
+        } else {
             reposiroty.stop()
         }
 
@@ -28,9 +27,9 @@ class MoveUseCaseImpl(
     }
 
     override fun left(id: ToioCubeId) {
-        if(moveLeft){
+        if (moveLeft) {
             reposiroty.left()
-        }else{
+        } else {
             reposiroty.stop()
         }
         moveLeft = !moveLeft
@@ -38,9 +37,9 @@ class MoveUseCaseImpl(
 
     override fun right(id: ToioCubeId) {
 
-        if(moveRight){
+        if (moveRight) {
             reposiroty.right()
-        }else{
+        } else {
             reposiroty.stop()
         }
         moveRight = !moveRight
@@ -51,11 +50,7 @@ class MoveUseCaseImpl(
 
     override fun scan() {
         Timber.d("usecase scan")
-        if(!scanState) {
-            reposiroty.scan()
-        }else{
-            reposiroty.disconnect()
-        }
+        reposiroty.scan()
     }
 
 

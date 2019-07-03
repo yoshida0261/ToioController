@@ -3,9 +3,10 @@ package com.stah.toiocontroller.infra.repository
 import android.os.ParcelUuid
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.scan.ScanSettings
+import com.stah.toio.lib.Motor
+import com.stah.toio.lib.ToioCube
 import com.stah.toio.lib.session.BleSessionManager
 import com.stah.toio.lib.session.SchedulerProvider
-import com.stah.toiocontroller.domain.ToioCube
 import com.stah.toiocontroller.domain.repository.ToioRepository
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
@@ -15,6 +16,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
     lateinit var dispose: Disposable
     private val sessionManager = BleSessionManager(bleClient, SchedulerProvider)
+    private val motor =  Motor(sessionManager)
 
     override fun scan() {
         dispose = bleClient.scanBleDevices(
@@ -66,6 +68,9 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
         6	UInt8	モーターの速度指示値	0x14（20）
         7	UInt8	モーターの制御時間	0x0A（100 ミリ秒）
          */
+        motor.front()
+
+        /*
         dispose = sessionManager.connection.flatMapSingle {
             println("toio 1st front")
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64))
@@ -75,11 +80,16 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
         }, {
             println(it)
         })
+        */
 
     }
 
     override fun stop() {
+
+        motor.stop()
+        /*
         dispose = sessionManager.connection.flatMapSingle {
+
             println("toio 1st front")
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x00, 0x02, 0x01, 0x00))
             // it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x02, 0x01, 0x01, 0x64, 0x02, 0x01, 0x64, 0x10.toByte()))
@@ -88,9 +98,12 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
         }, {
             println(it)
         })
+        */
     }
 
     override fun back() {
+        motor.back()
+        /*
         dispose = sessionManager.connection.flatMapSingle {
             println("toio 1st front")
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x02, 0x64, 0x02, 0x02, 0x64))
@@ -99,10 +112,12 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             println("toio cube front ")
         }, {
             println(it)
-        })
+        })*/
     }
 
     override fun right() {
+        motor.right()
+        /*
         dispose = sessionManager.connection.flatMapSingle {
             println("toio 1st front")
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x01, 0x64, 0x02, 0x02, 0x64))
@@ -111,10 +126,12 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             println("toio cube front ")
         }, {
             println(it)
-        })
+        })*/
     }
 
     override fun left() {
+        motor.left()
+        /*
         dispose = sessionManager.connection.flatMapSingle {
             println("toio 1st front")
             it.writeCharacteristic(ToioCube.MOTOR_UUID, byteArrayOf(0x01, 0x01, 0x02, 0x64, 0x02, 0x01, 0x64))
@@ -124,6 +141,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
         }, {
             println(it)
         })
+        */
     }
 
     override fun busser() {
