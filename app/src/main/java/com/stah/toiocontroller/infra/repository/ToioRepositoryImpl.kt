@@ -3,11 +3,13 @@ package com.stah.toiocontroller.infra.repository
 import android.os.ParcelUuid
 import com.polidea.rxandroidble2.RxBleClient
 import com.polidea.rxandroidble2.scan.ScanSettings
+import com.stah.toio.lib.Battery
 import com.stah.toio.lib.Motor
 import com.stah.toio.lib.ToioCube
 import com.stah.toio.lib.session.BleSessionManager
 import com.stah.toio.lib.session.SchedulerProvider
 import com.stah.toiocontroller.domain.repository.ToioRepository
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
@@ -33,10 +35,16 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
                 sessionManager.setupConnection()
                 led()
 
+
                 dispose.dispose()
             }, {
                 Timber.e(it.localizedMessage)
             })
+    }
+
+    override fun battery(): Observable<ByteArray> {
+        val battery = Battery(sessionManager)
+        return battery.getBattery()
     }
 
     fun led() {
@@ -83,8 +91,6 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     override fun busser() {
     }
 
-    override fun turn() {
-    }
 
     override fun disconnect() {
         Timber.d("toio disconnect")

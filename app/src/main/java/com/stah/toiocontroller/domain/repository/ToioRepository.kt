@@ -1,5 +1,7 @@
 package com.stah.toiocontroller.domain.repository
 
+import io.reactivex.Observable
+
 interface ToioRepository {
     fun scan()
     fun disconnect()
@@ -9,5 +11,5 @@ interface ToioRepository {
     fun right()
     fun left()
     fun busser()
-    fun turn()
+    fun battery() : Observable<ByteArray>
 }
