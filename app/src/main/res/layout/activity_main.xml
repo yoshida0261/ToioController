@@ -13,7 +13,7 @@
         <Button
                 android:text="front"
                 android:onClick="@{handlers.moveFront}"
-                android:layout_width="115dp"
+                android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/front_button"
                 app:layout_constraintStart_toStartOf="parent"
@@ -24,47 +24,33 @@
         <Button
                 android:text="left"
                 android:onClick="@{handlers.moveLeft}"
-                android:layout_width="115dp"
+                android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/left_button"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/nav_view" android:layout_marginBottom="16dp"/>
+                app:layout_constraintBottom_toTopOf="@+id/nav_view" android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/back_button"/>
         <Button
                 android:text="right"
                 android:onClick="@{handlers.moveRight}"
-                android:layout_width="115dp"
+                android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/right_button"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp" app:layout_constraintBottom_toTopOf="@+id/nav_view"
-                android:layout_marginBottom="16dp"/>
+                app:layout_constraintBottom_toTopOf="@+id/nav_view"
+                android:layout_marginBottom="16dp" app:layout_constraintStart_toEndOf="@+id/back_button"
+        />
         <Button
+                app:layout_constraintHorizontal_chainStyle="spread"
                 android:text="back"
                 android:onClick="@{handlers.moveBack}"
-                android:layout_width="115dp"
+                android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/back_button"
-                app:layout_constraintEnd_toStartOf="@+id/right_button" android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toEndOf="@+id/left_button" android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/right_button"
+                app:layout_constraintStart_toEndOf="@+id/left_button"
                 app:layout_constraintHorizontal_bias="0.611" android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toTopOf="@+id/nav_view"/>
-        <Button
-                android:text="A"
-                android:layout_width="115dp"
-                android:layout_height="80dp"
-                android:id="@+id/a_button"
-                android:layout_marginTop="420dp" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
-        <Button
-                android:text="B"
-
-                android:layout_width="115dp"
-                android:layout_height="80dp"
-                android:id="@+id/b_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="420dp" app:layout_constraintTop_toTopOf="parent"/>
         <Button
                 android:text="Scan"
                 android:onClick="@{handlers.scan}"
