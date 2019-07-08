@@ -7,6 +7,20 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/takeshi/android_dev/mystore.jks')
+            storePassword 'z7VZJg9H'
+            keyAlias = 'key0'
+            keyPassword 'UJ#tBEg)bn*Y'
+        }
+        release {
+            keyPassword 'UJ#tBEg)bn*Y'
+            keyAlias = 'key0'
+            storeFile file('/Users/takeshi/android_dev/mystore.jks')
+            storePassword 'z7VZJg9H'
+        }
+    }
     compileSdkVersion 28
 
 
