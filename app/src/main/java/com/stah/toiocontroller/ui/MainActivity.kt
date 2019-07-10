@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     private val moveUseCase: MoveUseCase by inject()
 
-    private val manager = AppUpdateManagerFactory.create(this)
+    private lateinit var manager : AppUpdateManager
     private lateinit var listener: InstallStateUpdatedListener
     val REQUEST_CODE = 222
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.handlers = this
 
+        manager = AppUpdateManagerFactory.create(this)
         listener = InstallStateUpdatedListener {
             if (it.installStatus() == InstallStatus.DOWNLOADED) {
                 popupSnackbarForCompleteUpdate()
