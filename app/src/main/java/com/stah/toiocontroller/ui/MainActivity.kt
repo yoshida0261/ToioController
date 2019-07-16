@@ -45,9 +45,12 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
             }
         }
         manager.registerListener(listener)
-        manager.appUpdateInfo.addOnSuccessListener { task ->
-            val info = task
+        println("update check start")
+        manager.appUpdateInfo.addOnCompleteListener { task ->
+            val info = task.result
 
+
+            println("update check end")
             when (info.updateAvailability()) {
                 UpdateAvailability.UPDATE_AVAILABLE -> {
                     // 更新処理を行う
