@@ -17,8 +17,8 @@ android {
         applicationId "com.stah.toiocontroller"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 6
-        versionName "6.0.0-beta"
+        versionCode 10
+        versionName "0.1.11-beta"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
