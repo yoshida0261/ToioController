@@ -72,26 +72,12 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
         }
     }
 
-    /*
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // 自動生成された関数にパーミッション・リクエストの結果に応じた処理の呼び出しを委譲
-        onRequestPermissionsResult(requestCode, grantResults)
-    }
-*/
     /**
      * 連絡先の登録数をトーストで表示する。
      */
     @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun showBleUse() {
         Toast.makeText(this@MainActivity, "ble ", Toast.LENGTH_SHORT).show()
-        /*
-        contentResolver.query(
-            ContactsContract.Contacts.CONTENT_URI,
-            null, null, null, null
-        ).use {
-            Toast.makeText(this@MainActivity, "ble ", Toast.LENGTH_SHORT).show()
-        }*/
     }
 
     @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
