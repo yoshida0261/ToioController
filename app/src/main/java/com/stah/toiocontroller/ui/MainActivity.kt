@@ -1,10 +1,12 @@
 package com.stah.toiocontroller.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
@@ -19,9 +21,10 @@ import com.stah.toiocontroller.databinding.ActivityMainBinding
 import com.stah.toiocontroller.domain.ToioCubeId
 import com.stah.toiocontroller.usecase.cube.MoveUseCase
 import org.koin.android.ext.android.inject
+import permissions.dispatcher.*
 import timber.log.Timber
 
-
+@RuntimePermissions
 class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     private val moveUseCase: MoveUseCase by inject()
@@ -56,17 +59,59 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
                     // 更新処理を行う
                     println("UPDATE_AVAILABLE")
 
-                    Toast.makeText(this, "UPDATE_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
+                   // Toast.makeText(this, "UPDATE_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
                     manager.startUpdateFlowForResult(info, AppUpdateType.IMMEDIATE, this, REQUEST_CODE)
 
                 }
                 UpdateAvailability.UPDATE_NOT_AVAILABLE -> {
                     // アップデートがない場合の処理。そのままアプリを起動するなど
-                    Toast.makeText(this, "UPDATE_NOT_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
+                   // Toast.makeText(this, "UPDATE_NOT_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
                     println("UPDATE_NOT_AVAILABLE")
                 }
             }
         }
+    }
+
+    /*
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // 自動生成された関数にパーミッション・リクエストの結果に応じた処理の呼び出しを委譲
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+*/
+    /**
+     * 連絡先の登録数をトーストで表示する。
+     */
+    @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    fun showBleUse() {
+        Toast.makeText(this@MainActivity, "ble ", Toast.LENGTH_SHORT).show()
+        /*
+        contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null, null, null, null
+        ).use {
+            Toast.makeText(this@MainActivity, "ble ", Toast.LENGTH_SHORT).show()
+        }*/
+    }
+
+    @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
+    fun onContactsDenied() {
+        Toast.makeText(this, "「許可しない」が選択されました", Toast.LENGTH_SHORT).show()
+    }
+
+    @OnShowRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+    fun showRationaleForContacts(request: PermissionRequest) {
+        AlertDialog.Builder(this)
+            .setPositiveButton("許可") { _, _ -> request.proceed() }
+            .setNegativeButton("許可しない") { _, _ -> request.cancel() }
+            .setCancelable(false)
+            .setMessage("BLEを利用するため、位置情報を有効にする必要があります。")
+            .show()
+    }
+
+    @OnNeverAskAgain(Manifest.permission.ACCESS_FINE_LOCATION)
+    fun onContactsNeverAskAgain() {
+        Toast.makeText(this, "「今後表示しない」が選択されました", Toast.LENGTH_SHORT).show()
     }
 
     private fun popupSnackbarForCompleteUpdate() {
@@ -95,6 +140,7 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     override fun scan(view: View) {
         Timber.d("go scan")
+        showBleUseWithPermissionCheck()
         moveUseCase.scan()
     }
 

@@ -1,14 +1,8 @@
-/*
- * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -17,8 +11,8 @@ android {
         applicationId "com.stah.toiocontroller"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 10
-        versionName "0.1.11-beta"
+        versionCode 16
+        versionName "0.1.16-beta"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -91,6 +85,10 @@ dependencies {
     debugImplementation 'com.willowtreeapps.hyperion:hyperion-recorder:0.9.27'
     debugImplementation 'com.willowtreeapps.hyperion:hyperion-shared-preferences:0.9.27'
     debugImplementation 'com.willowtreeapps.hyperion:hyperion-timber:0.9.27'
+
+    // permission
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.5.0"
+    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.5.0"
 
 }
 
