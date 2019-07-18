@@ -1,10 +1,10 @@
 package com.stah.toiocontroller.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
@@ -26,9 +26,20 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     private val moveUseCase: MoveUseCase by inject()
 
-    private lateinit var manager : AppUpdateManager
+    private lateinit var manager: AppUpdateManager
     private lateinit var listener: InstallStateUpdatedListener
     val REQUEST_CODE = 222
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_CANCELED) {
+                println("result_canceled")
+                finish()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,16 +65,18 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
             when (info.updateAvailability()) {
                 UpdateAvailability.UPDATE_AVAILABLE -> {
                     // 更新処理を行う
-                    println("UPDATE_AVAILABLE")
+                    println("UPDATE_AVAILABLE ${getVersionCode(this)}")
 
-                    Toast.makeText(this, "UPDATE_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, "UPDATE_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
+
                     manager.startUpdateFlowForResult(info, AppUpdateType.IMMEDIATE, this, REQUEST_CODE)
 
                 }
                 UpdateAvailability.UPDATE_NOT_AVAILABLE -> {
                     // アップデートがない場合の処理。そのままアプリを起動するなど
-                    Toast.makeText(this, "UPDATE_NOT_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
-                    println("UPDATE_NOT_AVAILABLE")
+                    // Toast.makeText(this, "UPDATE_NOT_AVAILABLE ${getVersionCode(this)}", Toast.LENGTH_LONG).show()
+                    println("UPDATE_NOT_AVAILABLE ${getVersionCode(this)}")
+
                 }
             }
         }
@@ -71,12 +84,8 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     private fun popupSnackbarForCompleteUpdate() {
         // 更新完了のSnackbarを表示する
-        Snackbar.make(
-            findViewById(R.id.activity_chooser_view_content),
-            "An update has just been downloaded.", Snackbar.LENGTH_INDEFINITE
-        )
-            .setAction("UPDATE") { manager.completeUpdate() }
-            .show()
+        Snackbar.make(findViewById(android.R.id.content), "An update has just been downloaded.", Snackbar.LENGTH_LONG)
+            .show();
     }
 
 
