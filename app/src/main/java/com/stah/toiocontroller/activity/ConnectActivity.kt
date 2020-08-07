@@ -1,7 +1,6 @@
 package com.stah.toiocontroller.activity
 
 import android.os.Bundle
-import android.support.wearable.activity.WearableActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.stah.toiocontroller.R
 
