@@ -16,6 +16,7 @@ class ConnectActivity : AppCompatActivity() {
     fun scanToioCube() {
         val intent = Intent(this, ScanActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
