@@ -1,12 +1,15 @@
 package com.stah.toiocontroller.activity
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.stah.toiocontroller.R
+import com.stah.toiocontroller.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_connect.*
 import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.OnNeverAskAgain
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
 
@@ -15,7 +18,8 @@ class ConnectActivity : AppCompatActivity() {
 
     @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun scanToioCube() {
-
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -23,6 +27,10 @@ class ConnectActivity : AppCompatActivity() {
         Toast.makeText(this, "位置情報を有効にしないとこのアプリは使用できません", Toast.LENGTH_LONG).show()
     }
 
+    @OnNeverAskAgain(Manifest.permission.ACCESS_FINE_LOCATION)
+    fun onLocationNeverAskAgain() {
+        Toast.makeText(this, "位置情報を有効にしないとこのアプリは使用できません", Toast.LENGTH_LONG).show()
+    }
 
     /*
         この画面を使って接続を許可する
