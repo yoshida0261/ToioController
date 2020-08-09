@@ -1,12 +1,20 @@
 package com.stah.toiocontroller.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.stah.toiocontroller.R
 import com.stah.toiocontroller.activity.scan.ScanViewModel
-import com.stah.toiocontroller.cube.DefaultToioCubeScan
 import com.stah.toiocontroller.databinding.ActivityScanBinding
+import com.stah.toiocontroller.ui.MainActivity
+
+fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (T) -> Unit) {
+    observe(owner, Observer { value -> value?.let { observer(it) } })
+}
 
 class ScanActivity : AppCompatActivity() {
 
@@ -19,8 +27,18 @@ class ScanActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan)
 
-        viewModel = ScanViewModel(DefaultToioCubeScan())
+        viewModel = ScanViewModel(application)
         //  viewModel.scanToioCube()
+
+        viewModel.toioStart.observeNonNull(this) {
+            viewModel.scanTerminate()
+
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
         binding =
             DataBindingUtil.setContentView<ActivityScanBinding>(this, R.layout.activity_scan).also {
@@ -32,7 +50,7 @@ class ScanActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        viewModel.scanTerminate()
+
     }
 
 

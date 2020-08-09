@@ -1,13 +1,10 @@
 package com.stah.toiocontroller.ui
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
@@ -22,10 +19,9 @@ import com.stah.toiocontroller.databinding.ActivityMainBinding
 import com.stah.toiocontroller.domain.ToioCubeId
 import com.stah.toiocontroller.usecase.cube.MoveUseCase
 import org.koin.android.ext.android.inject
-import permissions.dispatcher.*
 import timber.log.Timber
 
-@RuntimePermissions
+
 class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     private val moveUseCase: MoveUseCase by inject()
@@ -47,7 +43,8 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.handlers = this
 
         manager = AppUpdateManagerFactory.create(this)
@@ -70,7 +67,12 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
                 UpdateAvailability.UPDATE_AVAILABLE -> {
                     // 更新処理を行う
                     println("UPDATE_AVAILABLE ${getVersionCode(this)}")
-                    manager.startUpdateFlowForResult(info, AppUpdateType.IMMEDIATE, this, REQUEST_CODE)
+                    manager.startUpdateFlowForResult(
+                        info,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        REQUEST_CODE
+                    )
 
                 }
                 UpdateAvailability.UPDATE_NOT_AVAILABLE -> {
@@ -81,37 +83,21 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
         }
     }
 
-    /**
-     * 連絡先の登録数をトーストで表示する。
-     */
-    @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun showBleUse() {
-        Toast.makeText(this@MainActivity, "ble ", Toast.LENGTH_SHORT).show()
-    }
 
-    @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun onContactsDenied() {
-        Toast.makeText(this, "「許可しない」が選択されました", Toast.LENGTH_SHORT).show()
-    }
+    override fun onPause() {
+        super.onPause()
 
-    @OnShowRationale(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun showRationaleForContacts(request: PermissionRequest) {
-        AlertDialog.Builder(this)
-            .setPositiveButton("許可") { _, _ -> request.proceed() }
-            .setNegativeButton("許可しない") { _, _ -> request.cancel() }
-            .setCancelable(false)
-            .setMessage("BLEを利用するため、位置情報を有効にする必要があります。")
-            .show()
-    }
+        moveUseCase.disconnect(ToioCubeId(""))
 
-    @OnNeverAskAgain(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun onContactsNeverAskAgain() {
-        Toast.makeText(this, "「今後表示しない」が選択されました", Toast.LENGTH_SHORT).show()
     }
 
     private fun popupSnackbarForCompleteUpdate() {
         // 更新完了のSnackbarを表示する
-        Snackbar.make(findViewById(android.R.id.content), "An update has just been downloaded.", Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            "An update has just been downloaded.",
+            Snackbar.LENGTH_LONG
+        )
             .show();
     }
 
@@ -131,7 +117,6 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
 
     override fun scan(view: View) {
         Timber.d("go scan")
-        showBleUseWithPermissionCheck()
         moveUseCase.scan()
     }
 

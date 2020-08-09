@@ -2,7 +2,6 @@ package com.stah.toiocontroller.infra.repository
 
 import android.os.ParcelUuid
 import com.polidea.rxandroidble2.RxBleClient
-import com.polidea.rxandroidble2.scan.ScanResult
 import com.polidea.rxandroidble2.scan.ScanSettings
 import com.stah.toio.lib.Battery
 import com.stah.toio.lib.Motor
@@ -11,19 +10,18 @@ import com.stah.toio.lib.session.BleSessionManager
 import com.stah.toio.lib.session.SchedulerProvider
 import com.stah.toiocontroller.domain.repository.ToioRepository
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
-import java.lang.Exception
 
 
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
 
-    lateinit var dispose: Disposable
+    val dispose = CompositeDisposable()
     private val sessionManager = BleSessionManager(bleClient, SchedulerProvider)
     private val motor = Motor(sessionManager)
 
     override fun scan() {
-        dispose = bleClient.scanBleDevices(
+        dispose.add(bleClient.scanBleDevices(
             ScanSettings.Builder().build()
         ).filter {
             println(it.bleDevice.macAddress)
@@ -36,11 +34,12 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
                 sessionManager.setMacAddress(it.bleDevice.macAddress)
                 sessionManager.setupConnection()
                 led()
-        //dispose.dispose()
+                //dispose.dispose()
             }, {
                 Timber.e(it.localizedMessage)
-                throw Exception()
+                //throw Exception()
             })
+        )
     }
 
     override fun battery(): Observable<ByteArray> {
@@ -49,7 +48,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     }
 
     fun led() {
-        val dispose = sessionManager.connection.flatMapSingle {
+        dispose.add(sessionManager.connection.flatMapSingle {
 
             it.writeCharacteristic(
                 ToioCube.LIGHT_UUID, byteArrayOf(
@@ -61,7 +60,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
             println("light $it")
         }, {
             println(it)
-        })
+        }))
     }
 
 

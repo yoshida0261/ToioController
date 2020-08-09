@@ -8,4 +8,5 @@ interface MoveUseCase {
     fun back(id: ToioCubeId)
     fun left(id:ToioCubeId)
     fun right(id: ToioCubeId)
+    fun disconnect(id: ToioCubeId)
 }
