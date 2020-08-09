@@ -41,7 +41,7 @@ class DefaultToioCubeScan() : ToioCubeScan {
                 //dispose.dispose()
             }, {
                 Timber.e(it.localizedMessage)
-                throw Exception()
+                //throw Exception()
             })
         )
     }
