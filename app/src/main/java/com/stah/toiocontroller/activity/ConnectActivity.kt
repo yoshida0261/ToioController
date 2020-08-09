@@ -6,19 +6,15 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.stah.toiocontroller.R
-import com.stah.toiocontroller.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_connect.*
-import permissions.dispatcher.NeedsPermission
-import permissions.dispatcher.OnNeverAskAgain
-import permissions.dispatcher.OnPermissionDenied
-import permissions.dispatcher.RuntimePermissions
+import permissions.dispatcher.*
 
 @RuntimePermissions
 class ConnectActivity : AppCompatActivity() {
 
     @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     fun scanToioCube() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, ScanActivity::class.java)
         startActivity(intent)
     }
 
@@ -40,6 +36,10 @@ class ConnectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
+
+        if (PermissionUtils.hasSelfPermissions(this, "android.permission.ACCESS_FINE_LOCATION")) {
+            scanToioCube()
+        }
 
         connectButton.setOnClickListener {
             scanToioCubeWithPermissionCheck()

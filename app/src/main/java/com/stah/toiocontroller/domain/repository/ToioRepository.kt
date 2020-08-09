@@ -11,5 +11,5 @@ interface ToioRepository {
     fun right()
     fun left()
     fun busser()
-    fun battery() : Observable<ByteArray>
+    fun battery(): Observable<ByteArray>
 }

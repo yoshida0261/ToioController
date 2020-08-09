@@ -2,6 +2,7 @@ package com.stah.toiocontroller.infra.repository
 
 import android.os.ParcelUuid
 import com.polidea.rxandroidble2.RxBleClient
+import com.polidea.rxandroidble2.scan.ScanResult
 import com.polidea.rxandroidble2.scan.ScanSettings
 import com.stah.toio.lib.Battery
 import com.stah.toio.lib.Motor
@@ -12,6 +13,7 @@ import com.stah.toiocontroller.domain.repository.ToioRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
+import java.lang.Exception
 
 
 class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
@@ -34,11 +36,10 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
                 sessionManager.setMacAddress(it.bleDevice.macAddress)
                 sessionManager.setupConnection()
                 led()
-
-
-                dispose.dispose()
+        //dispose.dispose()
             }, {
                 Timber.e(it.localizedMessage)
+                throw Exception()
             })
     }
 
@@ -95,6 +96,7 @@ class ToioRepositoryImpl(val bleClient: RxBleClient) : ToioRepository {
     override fun disconnect() {
         Timber.d("toio disconnect")
         sessionManager.disconnect()
+        dispose.dispose()
     }
 }
 
