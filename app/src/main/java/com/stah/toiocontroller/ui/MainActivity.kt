@@ -14,6 +14,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.stah.toiocontroller.R
 import com.stah.toiocontroller.databinding.ActivityMainBinding
 import com.stah.toiocontroller.domain.ToioCubeId
@@ -116,8 +117,29 @@ class MainActivity : AppCompatActivity(), OnCubeControllListner {
     }
 
     override fun scan(view: View) {
-        Timber.d("go scan")
-        moveUseCase.scan()
+
+        val reviewManager = ReviewManagerFactory.create(this)
+
+
+        val request = reviewManager.requestReviewFlow()
+
+
+        request.addOnSuccessListener { reviewInfo ->
+
+            if (request.isSuccessful) {
+                // We got the ReviewInfo object
+                reviewManager.launchReviewFlow(this, reviewInfo)
+                    .addOnSuccessListener {
+                        // レビューの投稿が成功したときもキャンセルしたときも呼ばれる
+                    }
+            } else {
+                // There was some problem, continue regardless of the result.
+                Timber.e("error")
+            }
+        }
+        //Timber.d("go scan")
+
+        //moveUseCase.scan()
     }
 
     override fun moveFront(view: View) {
